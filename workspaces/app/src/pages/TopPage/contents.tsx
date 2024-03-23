@@ -21,7 +21,8 @@ export const Contents: React.FC = () => {
           ピックアップ
         </Text>
         <Spacer height={Space * 2} />
-        <Box maxWidth="100%" overflowX="scroll" overflowY="hidden">
+        {/* レイアウトシフトが発生しないように固定する */}
+        <Box height={"206px"} maxWidth="100%" overflowX="scroll" overflowY="hidden">
           <Suspense fallback={null}>
             <Pickup />
           </Suspense>
@@ -49,7 +50,8 @@ export const Contents: React.FC = () => {
           本日更新
         </Text>
         <Spacer height={Space * 2} />
-        <Box maxWidth="100%" overflowX="scroll" overflowY="hidden">
+        {/* レイアウトシフトが発生しないように固定する */}
+        <Box height={"244px"} maxWidth="100%" overflowX="scroll" overflowY="hidden">
           <Suspense fallback={null}>
             <NewRelease />
           </Suspense>
