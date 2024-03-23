@@ -22,8 +22,8 @@ export const Contents: React.FC = () => {
         </Text>
         <Spacer height={Space * 2} />
         {/* レイアウトシフトが発生しないように固定する */}
-        <Box height={"206px"} maxWidth="100%" overflowX="scroll" overflowY="hidden">
-          <Suspense fallback={null}>
+        <Box maxWidth="100%" overflowX="scroll" overflowY="hidden">
+          <Suspense fallback={<div style={{height: "206px"}} />}>
             <Pickup />
           </Suspense>
         </Box>
@@ -37,7 +37,7 @@ export const Contents: React.FC = () => {
         </Text>
         <Spacer height={Space * 2} />
         <Box maxWidth="100%" overflowX="hidden" overflowY="hidden">
-          <Suspense fallback={null}>
+          <Suspense fallback={<div style={{height: "7350px"}} />}>
             <Ranking />
           </Suspense>
         </Box>
@@ -51,8 +51,8 @@ export const Contents: React.FC = () => {
         </Text>
         <Spacer height={Space * 2} />
         {/* レイアウトシフトが発生しないように固定する */}
-        <Box height={"244px"} maxWidth="100%" overflowX="scroll" overflowY="hidden">
-          <Suspense fallback={null}>
+        <Box maxWidth="100%" overflowX="scroll" overflowY="hidden">
+          <Suspense fallback={<div style={{height: "244px"}} />}>
             <NewRelease />
           </Suspense>
         </Box>
