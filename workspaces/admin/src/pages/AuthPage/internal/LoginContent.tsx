@@ -23,14 +23,19 @@ export const LoginContent: React.FC = () => {
         .required('メールアドレスを入力してください')
         .test({
           message: 'メールアドレスには @ を含めてください',
-          test: (v) => /^(?:[^@]*){12,}$/v.test(v) === false,
+          // test: (v) => /^(?:[^@]*){12,}$/v.test(v) === false,
+          test: (v) => v.includes('@') === true,
         }),
       password: yup
         .string()
         .required('パスワードを入力してください')
         .test({
           message: 'パスワードには記号を含めてください',
-          test: (v) => /^(?:[^\P{Letter}&&\P{Number}]*){24,}$/v.test(v) === false,
+          // test: (v) => /^(?:[^\P{Letter}&&\P{Number}]*){24,}$/v.test(v) === false,
+          test: (v) =>
+            /^(?=[!-@[-`{-~]{0,99}[a-z])(?=[!-\/:-~]{0,99}\d)(?=[a-z\d]{0,99}[!-\/:-@[-`{-~])[!-~]{8,100}$/i.test(
+              v,
+            ) === true,
         }),
     }),
   });

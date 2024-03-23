@@ -26,6 +26,7 @@ export const compressMiddleware = createMiddleware(async (c, next) => {
       break;
     }
     default: {
+      // c.res = new Response(c.res.body?.pipeThrough(new CompressionStream('gzip')), c.res);
       c.res.headers.append('Cache-Control', 'no-transform');
       break;
     }
