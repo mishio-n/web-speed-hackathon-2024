@@ -43,7 +43,7 @@ const BookCard: React.FC<Props> = ({ book }) => {
           alt={book.image.alt}
           height={128}
           loading="lazy"
-          src={`/images/${book.image.id}?format=jpg&width=128&height=192`}
+          src={`/images/${book.image.id}?format=webp&width=128&height=192`}
           style={{ objectFit: 'cover' }}
           width={192}
         />
@@ -60,7 +60,7 @@ const BookCard: React.FC<Props> = ({ book }) => {
               alt={book.author.name}
               height={32}
               loading="lazy"
-              src={`/images/${book.author.image.id}?format=jpg&width=32&height=32`}
+              src={`/images/${book.author.image.id}?format=webp&width=32&height=32`}
               style={{ objectFit: 'cover' }}
               width={32}
             />

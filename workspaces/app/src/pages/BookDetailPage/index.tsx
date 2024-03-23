@@ -3,7 +3,6 @@ import { Suspense, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import type { RouteParams } from 'regexparam';
 import { styled } from 'styled-components';
-import invariant from 'tiny-invariant';
 
 import { FavoriteBookAtomFamily } from '../../features/book/atoms/FavoriteBookAtomFamily';
 import { useBook } from '../../features/book/hooks/useBook';
@@ -45,7 +44,9 @@ const _AvatarWrapper = styled.div`
 
 const BookDetailPage: React.FC = () => {
   const { bookId } = useParams<RouteParams<'/books/:bookId'>>();
-  invariant(bookId);
+  if (bookId === undefined) {
+    throw new Error('bookId is required');
+  }
 
   const { data: book } = useBook({ params: { bookId } });
   const { data: episodeList } = useEpisodeList({ query: { bookId } });
@@ -65,7 +66,7 @@ const BookDetailPage: React.FC = () => {
           alt={book.name}
           height={256}
           loading="lazy"
-          src={`/images/${book.image.id}?format=jpg&width=256&height=192`}
+          src={`/images/${book.image.id}?format=webp&width=256&height=192`}
           style={{ objectFit: 'cover' }}
           width={192}
         />
@@ -88,7 +89,7 @@ const BookDetailPage: React.FC = () => {
                 alt={book.author.name}
                 height={32}
                 loading="lazy"
-                src={`/images/${book.author.image.id}?format=jpg&width=32&height=32`}
+                src={`/images/${book.author.image.id}?format=webp&width=32&height=32`}
                 style={{ objectFit: 'cover' }}
                 width={32}
               />

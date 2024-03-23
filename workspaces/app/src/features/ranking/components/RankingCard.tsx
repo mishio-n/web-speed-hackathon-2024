@@ -51,7 +51,7 @@ const RankingCard: React.FC<Props> = ({ book }) => {
               alt={book.name}
               height={96}
               loading="lazy"
-              src={`/images/${book.image.id}?format=jpg&width=96&height=96`}
+              src={`/images/${book.image.id}?format=webp&width=96&height=96`}
               style={{ objectFit: 'cover' }}
               width={96}
             />
@@ -74,7 +74,7 @@ const RankingCard: React.FC<Props> = ({ book }) => {
                   alt={`${book.author.name}のアイコン`}
                   height={32}
                   loading="lazy"
-                  src={`/images/${book.author.image.id}?format=jpg&width=32&height=32`}
+                  src={`/images/${book.author.image.id}?format=webp&width=32&height=32`}
                   style={{ objectFit: 'cover' }}
                   width={32}
                 />

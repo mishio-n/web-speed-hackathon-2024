@@ -22,7 +22,6 @@ import { useId, useMemo, useState } from 'react';
 import { create } from 'zustand';
 
 import { useAuthorList } from '../../features/authors/hooks/useAuthorList';
-import { isContains } from '../../lib/filter/isContains';
 
 import { AuthorDetailModal } from './internal/AuthorDetailModal';
 import { CreateAuthorModal } from './internal/CreateAuthorModal';
@@ -83,7 +82,7 @@ export const AuthorListPage: React.FC = () => {
       }
       case AuthorSearchKind.AuthorName: {
         return authorList.filter((author) => {
-          return isContains({ query: formik.values.query, target: author.name });
+          return author.name.includes(formik.values.query);
         });
       }
       default: {

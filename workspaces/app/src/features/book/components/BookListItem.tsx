@@ -42,7 +42,7 @@ export const BookListItem: React.FC<Props> = ({ book }) => {
               alt={book.name}
               height={64}
               loading="lazy"
-              src={`/images/${book.image.id}?format=jpg&width=64&height=64`}
+              src={`/images/${book.image.id}?format=webp&width=64&height=64`}
               style={{ objectFit: 'cover' }}
               width={64}
             />

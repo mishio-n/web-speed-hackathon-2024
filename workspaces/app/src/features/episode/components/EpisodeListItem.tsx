@@ -42,7 +42,7 @@ export const EpisodeListItem: React.FC<Props> = ({ bookId, episode }) => {
               alt={episode.name}
               height={96}
               loading="lazy"
-              src={`/images/${episode.image.id}?format=jpg&width=96&height=96`}
+              src={`/images/${episode.image.id}?format=webp&width=96&height=96`}
               style={{ objectFit: 'cover' }}
               width={96}
             />

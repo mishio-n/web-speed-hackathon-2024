@@ -2,7 +2,6 @@ import { Suspense, useId } from 'react';
 import { useParams } from 'react-router-dom';
 import type { RouteParams } from 'regexparam';
 import { styled } from 'styled-components';
-import invariant from 'tiny-invariant';
 
 import { useAuthor } from '../../features/author/hooks/useAuthor';
 import { BookListItem } from '../../features/book/components/BookListItem';
@@ -31,7 +30,9 @@ const _AuthorImageWrapper = styled.div`
 
 const AuthorDetailPage: React.FC = () => {
   const { authorId } = useParams<RouteParams<'/authors/:authorId'>>();
-  invariant(authorId);
+  if (authorId === undefined) {
+    throw new Error('authorId is required');
+  }
 
   const { data: author } = useAuthor({ params: { authorId } });
 
@@ -45,7 +46,7 @@ const AuthorDetailPage: React.FC = () => {
             alt={author.name}
             height={128}
             loading="lazy"
-            src={`/images/${author.image.id}?format=jpg&width=128&height=128`}
+            src={`/images/${author.image.id}?format=webp&width=128&height=128`}
             style={{ objectFit: 'cover' }}
             width={128}
           />
@@ -72,7 +73,7 @@ const AuthorDetailPage: React.FC = () => {
 
         <Flex align="center" as="ul" direction="column" justify="center">
           {author.books.map((book) => (
-            <BookListItem key={book.id} bookId={book.id} />
+            <BookListItem key={book.id} book={{ ...book, author }} />
           ))}
           {author.books.length === 0 && (
             <>

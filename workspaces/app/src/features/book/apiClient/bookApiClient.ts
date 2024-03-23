@@ -6,7 +6,6 @@ import type { GetBookRequestParams } from '@wsh-2024/schema/src/api/books/GetBoo
 import type { GetBookResponse } from '@wsh-2024/schema/src/api/books/GetBookResponse';
 
 import type { DomainSpecificApiClientInterface } from '../../../lib/api/DomainSpecificApiClientInterface';
-import { apiClient } from '../../../lib/api/apiClient';
 
 type BookApiClient = DomainSpecificApiClientInterface<{
   fetch: [{ params: GetBookRequestParams }, GetBookResponse];
@@ -15,18 +14,30 @@ type BookApiClient = DomainSpecificApiClientInterface<{
 
 export const bookApiClient: BookApiClient = {
   fetch: async ({ params }) => {
-    const response = await apiClient.get<GetBookResponse>(inject('/api/v1/books/:bookId', params));
-    return response.data;
+    const response = await fetch(inject('/api/v1/books/:bookId', params), {
+      headers: { 'Content-Type': 'application/json' },
+      method: 'GET',
+    }).then<GetBookResponse>((res) => (res.ok ? res.json() : Promise.reject(new Error())));
+    return response;
   },
   fetch$$key: (options) => ({
     requestUrl: `/api/v1/books/:bookId`,
     ...options,
   }),
   fetchList: async ({ query }) => {
-    const response = await apiClient.get<GetBookListResponse>(inject('/api/v1/books', {}), {
-      params: query,
-    });
-    return response.data;
+    const params = new URLSearchParams();
+    query.limit !== undefined && params.append('limit', query.limit.toString());
+    query.offset !== undefined && params.append('offset', query.offset.toString());
+    query.name !== undefined && params.append('name', query.name);
+    query.authorId !== undefined && params.append('authorId', query.authorId);
+    query.authorName !== undefined && params.append('authorName', query.authorName);
+
+    const url = Object.keys(params).length > 0 ? `/api/v1/books?${params.toString()}` : '/api/v1/books';
+    const response = await fetch(url, {
+      headers: { 'Content-Type': 'application/json' },
+      method: 'GET',
+    }).then<GetBookListResponse>((res) => (res.ok ? res.json() : Promise.reject(new Error())));
+    return response;
   },
   fetchList$$key: (options) => ({
     requestUrl: `/api/v1/books`,

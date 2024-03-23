@@ -14,6 +14,10 @@ model author {
   image_id    String
   created_at  String
   updated_at  String
+
+  image image  @relation(fields: [image_id], references: [id])
+
+  book  book[]
 }
 
 model book {
@@ -26,6 +30,14 @@ model book {
   release_id  String
   created_at  String
   updated_at  String
+
+  image   image   @relation(fields: [image_id], references: [id])
+  author  author  @relation(fields: [author_id], references: [id])
+  release release @relation(fields: [release_id], references: [id])
+
+  feature feature[]
+  ranking ranking[]
+  episode episode[]
 }
 
 model episode {
@@ -38,6 +50,11 @@ model episode {
   image_id    String
   created_at  String
   updated_at  String
+
+  book  book  @relation(fields: [book_id], references: [id])
+  image image @relation(fields: [image_id], references: [id])
+
+  episode_page episode_page[]
 }
 
 model episode_page {
@@ -47,6 +64,9 @@ model episode_page {
   image_id   String
   created_at String
   updated_at String
+
+  episode episode @relation(fields: [episode_id], references: [id])
+  image   image   @relation(fields: [image_id], references: [id])
 }
 
 model feature {
@@ -54,6 +74,8 @@ model feature {
   book_id    String
   created_at String
   updated_at String
+
+  book book @relation(fields: [book_id], references: [id])
 }
 
 model image {
@@ -61,6 +83,12 @@ model image {
   alt        String
   created_at String
   updated_at String
+
+  author       author[]
+  book         book[]
+  user         user[]
+  episode_page episode_page[]
+  episode      episode[]
 }
 
 model ranking {
@@ -69,6 +97,8 @@ model ranking {
   book_id    String
   created_at String
   updated_at String
+
+  book book @relation(fields: [book_id], references: [id])
 }
 
 model release {
@@ -76,6 +106,8 @@ model release {
   day_of_week String
   created_at  String
   updated_at  String
+
+  book        book[]
 }
 
 model user {
@@ -86,4 +118,6 @@ model user {
   image_id    String
   created_at  String
   updated_at  String
+
+  image image @relation(fields: [image_id], references: [id])
 }
