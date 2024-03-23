@@ -4,12 +4,11 @@
   "scripts": {
     "build": "pnpm run build:clean && pnpm run build:tsup && pnpm run build:copy",
     "build:clean": "rm -rf ./dist",
-    "build:copy": "cp -r ./assets ./dist/assets",
+    "build:copy": "cp -r ./assets ./dist/assets && cp ./favicon.ico ./dist/favicon.ico",
     "build:tsup": "tsup --metafile"
   },
   "dependencies": {
     "@jsquash/jxl": "1.1.0",
-    "@webcomponents/webcomponentsjs": "2.8.0",
     "@wsh-2024/admin": "workspace:*",
     "@wsh-2024/app": "workspace:*",
     "fzstd": "0.1.0",
@@ -19,9 +18,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-router-dom": "6.18.0",
-    "regenerator-runtime": "0.14.1",
-    "swr": "2.2.4",
-    "unorm": "1.6.0"
+    "swr": "2.2.4"
   },
   "devDependencies": {
     "@node-kit/pnpm-workspace-root": "3.2.0",
