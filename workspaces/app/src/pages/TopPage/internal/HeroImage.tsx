@@ -10,7 +10,6 @@ export const HeroImage: React.FC = () => {
       <img
         alt="Cyber TOON"
         src="/assets/helloImage.webp"
-        
         style={{
           display: 'inline-block',
           width: '100%',
