@@ -2,8 +2,9 @@ import { Suspense, useEffect, useState } from 'react';
 import { useInterval, useUpdate } from 'react-use';
 import styled from 'styled-components';
 
+import type { GetEpisodeResponse } from '@wsh-2024/schema/src/api/episodes/GetEpisodeResponse';
+
 import { addUnitIfNeeded } from '../../../lib/css/addUnitIfNeeded';
-import { useEpisode } from '../../episode/hooks/useEpisode';
 
 import { ComicViewerPage } from './ComicViewerPage';
 
@@ -95,15 +96,13 @@ const _Wrapper = styled.div<{
 `;
 
 type Props = {
-  episodeId: string;
+  episode: GetEpisodeResponse;
 };
 
-const ComicViewerCore: React.FC<Props> = ({ episodeId }) => {
+const ComicViewerCore: React.FC<Props> = ({ episode }) => {
   // 画面のリサイズに合わせて再描画する
   const rerender = useUpdate();
   useInterval(rerender, 0);
-
-  const { data: episode } = useEpisode({ params: { episodeId } });
 
   const [container, containerRef] = useState<HTMLDivElement | null>(null);
   const [scrollView, scrollViewRef] = useState<HTMLDivElement | null>(null);
@@ -192,11 +191,12 @@ const ComicViewerCore: React.FC<Props> = ({ episodeId }) => {
       prevContentRect = entries[0]?.contentRect ?? null;
     };
 
-    scrollView?.addEventListener('pointerdown', handlePointerDown, { passive: false, signal: abortController.signal });
-    scrollView?.addEventListener('pointermove', handlePointerMove, { passive: false, signal: abortController.signal });
-    scrollView?.addEventListener('pointerup', handlePointerUp, { passive: false, signal: abortController.signal });
-    scrollView?.addEventListener('scroll', handleScroll, { passive: false, signal: abortController.signal });
-    scrollView?.addEventListener('scrollend', handleScrollEnd, { passive: false, signal: abortController.signal });
+    // https://blog.leap-in.com/use-passive-true-avoid-janky
+    scrollView?.addEventListener('pointerdown', handlePointerDown, { passive: true, signal: abortController.signal });
+    scrollView?.addEventListener('pointermove', handlePointerMove, { passive: true, signal: abortController.signal });
+    scrollView?.addEventListener('pointerup', handlePointerUp, { passive: true, signal: abortController.signal });
+    scrollView?.addEventListener('scroll', handleScroll, { passive: true, signal: abortController.signal });
+    scrollView?.addEventListener('scrollend', handleScrollEnd, { passive: true, signal: abortController.signal });
 
     const resizeObserver = new ResizeObserver(handleResize);
     scrollView && resizeObserver.observe(scrollView);
@@ -218,10 +218,10 @@ const ComicViewerCore: React.FC<Props> = ({ episodeId }) => {
   );
 };
 
-const ComicViewerCoreWithSuspense: React.FC<Props> = ({ episodeId }) => {
+const ComicViewerCoreWithSuspense: React.FC<Props> = ({ episode }) => {
   return (
     <Suspense fallback={null}>
-      <ComicViewerCore episodeId={episodeId} />
+      <ComicViewerCore episode={episode} />
     </Suspense>
   );
 };

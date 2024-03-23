@@ -12,5 +12,5 @@ const _Input = styled.input`
 type Props = JSX.IntrinsicElements['input'];
 
 export const Input: React.FC<Props> = ({ ...rest }) => {
-  return <_Input {...rest} placeholder="作品名を入力" />;
+  return <_Input {...rest} name='作品名を入力' placeholder="作品名を入力" />;
 };
