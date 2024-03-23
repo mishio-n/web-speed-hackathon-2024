@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import type { GetBookResponse } from '@wsh-2024/schema/src/api/books/GetBookResponse';
+
 import { Box } from '../../../foundation/components/Box';
 import { Flex } from '../../../foundation/components/Flex';
 import { Link } from '../../../foundation/components/Link';
@@ -7,7 +9,7 @@ import { Separator } from '../../../foundation/components/Separator';
 import { Spacer } from '../../../foundation/components/Spacer';
 import { Text } from '../../../foundation/components/Text';
 import { Color, Radius, Space, Typography } from '../../../foundation/styles/variables';
-import { useBook } from '../hooks/useBook';
+
 
 const _Wrapper = styled.li`
   width: 100%;
@@ -26,12 +28,10 @@ const _ImgWrapper = styled.div`
 `;
 
 type Props = {
-  bookId: string;
+  book: Omit<GetBookResponse, 'nameRuby'>;
 };
 
-export const BookListItem: React.FC<Props> = ({ bookId }) => {
-  const { data: book } = useBook({ params: { bookId } });
-
+export const BookListItem: React.FC<Props> = ({ book }) => {
   return (
     <_Wrapper>
       <_Link href={`/books/${book.id}`}>

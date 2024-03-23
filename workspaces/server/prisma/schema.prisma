@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model author {
+  id          String @id
+  name        String
+  description String
+  image_id    String
+  created_at  String
+  updated_at  String
+}
+
+model book {
+  id          String @id
+  description String
+  name        String
+  name_ruby   String
+  image_id    String
+  author_id   String
+  release_id  String
+  created_at  String
+  updated_at  String
+}
+
+model episode {
+  id          String @id
+  name        String
+  name_ruby   String
+  description String
+  chapter     Int
+  book_id     String
+  image_id    String
+  created_at  String
+  updated_at  String
+}
+
+model episode_page {
+  id         String @id
+  page       Int
+  episode_id String
+  image_id   String
+  created_at String
+  updated_at String
+}
+
+model feature {
+  id         String @id
+  book_id    String
+  created_at String
+  updated_at String
+}
+
+model image {
+  id         String @id
+  alt        String
+  created_at String
+  updated_at String
+}
+
+model ranking {
+  id         String @id
+  rank       Int
+  book_id    String
+  created_at String
+  updated_at String
+}
+
+model release {
+  id          String @id
+  day_of_week String
+  created_at  String
+  updated_at  String
+}
+
+model user {
+  id          String @id
+  description String
+  email       String
+  password    String
+  image_id    String
+  created_at  String
+  updated_at  String
+}
