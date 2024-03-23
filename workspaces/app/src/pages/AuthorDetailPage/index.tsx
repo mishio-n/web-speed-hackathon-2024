@@ -8,11 +8,9 @@ import { useAuthor } from '../../features/author/hooks/useAuthor';
 import { BookListItem } from '../../features/book/components/BookListItem';
 import { Box } from '../../foundation/components/Box';
 import { Flex } from '../../foundation/components/Flex';
-import { Image } from '../../foundation/components/Image';
 import { Separator } from '../../foundation/components/Separator';
 import { Spacer } from '../../foundation/components/Spacer';
 import { Text } from '../../foundation/components/Text';
-import { useImage } from '../../foundation/hooks/useImage';
 import { Color, Space, Typography } from '../../foundation/styles/variables';
 
 const _HeadingWrapper = styled.section`
@@ -37,17 +35,21 @@ const AuthorDetailPage: React.FC = () => {
 
   const { data: author } = useAuthor({ params: { authorId } });
 
-  const imageUrl = useImage({ height: 128, imageId: author.image.id, width: 128 });
   const bookListA11yId = useId();
 
   return (
     <Box height="100%" px={Space * 2}>
       <_HeadingWrapper aria-label="作者情報">
-        {imageUrl != null && (
-          <_AuthorImageWrapper>
-            <Image key={author.id} alt={author.name} height={128} objectFit="cover" src={imageUrl} width={128} />
-          </_AuthorImageWrapper>
-        )}
+        <_AuthorImageWrapper>
+          <img
+            alt={author.name}
+            height={128}
+            loading="lazy"
+            src={`/images/${author.image.id}?format=jpg&width=128&height=128`}
+            style={{ objectFit: 'cover' }}
+            width={128}
+          />
+        </_AuthorImageWrapper>
 
         <Flex align="flex-start" direction="column" gap={Space * 1} justify="flex-start">
           <Text color={Color.MONO_100} typography={Typography.NORMAL20} weight="bold">

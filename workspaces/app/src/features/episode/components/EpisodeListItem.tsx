@@ -1,15 +1,14 @@
 import styled from 'styled-components';
 
+import type { GetEpisodeResponse } from '@wsh-2024/schema/src/api/episodes/GetEpisodeResponse';
+
 import { Box } from '../../../foundation/components/Box';
 import { Flex } from '../../../foundation/components/Flex';
-import { Image } from '../../../foundation/components/Image';
 import { Link } from '../../../foundation/components/Link';
 import { Separator } from '../../../foundation/components/Separator';
 import { Spacer } from '../../../foundation/components/Spacer';
 import { Text } from '../../../foundation/components/Text';
-import { useImage } from '../../../foundation/hooks/useImage';
 import { Color, Radius, Space, Typography } from '../../../foundation/styles/variables';
-import { useEpisode } from '../hooks/useEpisode';
 
 const _Wrapper = styled.li`
   width: 100%;
@@ -29,24 +28,25 @@ const _ImgWrapper = styled.div`
 
 type Props = {
   bookId: string;
-  episodeId: string;
+  episode: GetEpisodeResponse;
 };
 
-export const EpisodeListItem: React.FC<Props> = ({ bookId, episodeId }) => {
-  const { data: episode } = useEpisode({ params: { episodeId } });
-
-  const imageUrl = useImage({ height: 96, imageId: episode.image.id, width: 96 });
-
+export const EpisodeListItem: React.FC<Props> = ({ bookId, episode }) => {
   return (
     <_Wrapper>
       <_Link href={`/books/${bookId}/episodes/${episode.id}`}>
         <Spacer height={Space * 1.5} />
         <Flex align="flex-start" gap={Space * 2.5} justify="flex-start">
-          {imageUrl != null && (
-            <_ImgWrapper>
-              <Image alt={episode.name} height={96} objectFit="cover" src={imageUrl} width={96} />
-            </_ImgWrapper>
-          )}
+          <_ImgWrapper>
+            <img
+              alt={episode.name}
+              height={96}
+              loading="lazy"
+              src={`/images/${episode.image.id}?format=jpg&width=96&height=96`}
+              style={{ objectFit: 'cover' }}
+              width={96}
+            />
+          </_ImgWrapper>
           <Box width="100%">
             <Flex align="flex-start" direction="column" gap={Space * 1} justify="flex-start">
               <Flex align="center" justify="flex-start">
