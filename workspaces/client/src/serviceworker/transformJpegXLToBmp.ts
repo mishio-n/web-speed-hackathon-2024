@@ -16,8 +16,7 @@ export async function transformJpegXLToBmp(response: Response): Promise<Response
 
   return new Response(bmpBinary, {
     headers: {
-      // 'Cache-Control': 'no-store',
-      'cache-control': 'max-age=31536000, public',
+      'Cache-Control': 'no-store',
       'Content-Type': 'image/bmp',
     },
   });
