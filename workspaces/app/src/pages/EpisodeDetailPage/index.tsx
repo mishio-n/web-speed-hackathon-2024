@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import type { RouteParams } from 'regexparam';
 
 import { EpisodeListItem } from '../../features/episode/components/EpisodeListItem';
+import { useEpisode } from '../../features/episode/hooks/useEpisode';
 import { useEpisodeList } from '../../features/episode/hooks/useEpisodeList';
 import { Box } from '../../foundation/components/Box';
 import { Flex } from '../../foundation/components/Flex';
@@ -11,7 +12,7 @@ import { Space } from '../../foundation/styles/variables';
 
 import { ComicViewer } from './internal/ComicViewer';
 
-const EpisodeDetailPage: React.FC = () => {
+export const EpisodeDetailPage: React.FC = () => {
   const { bookId, episodeId } = useParams<RouteParams<'/books/:bookId/episodes/:episodeId'>>();
   if (bookId === undefined) {
     throw new Error('bookId is required');
@@ -20,35 +21,47 @@ const EpisodeDetailPage: React.FC = () => {
     throw new Error('episodeId is required');
   }
 
-  const { data: episodes } = useEpisodeList({ query: { bookId } });
-
-  const episode = episodes.find((episode) => episode.id === episodeId);
-
   return (
     <Box>
-      <section aria-label="漫画ビューアー">
-        <ComicViewer episode={episode!} />
-      </section>
+      <Suspense
+        fallback={
+          <div
+            style={{
+              height: '650px',
+            }}
+          />
+        }
+      >
+        <ViewerSection episodeId={episodeId} />
+      </Suspense>
 
       <Separator />
 
       <Box aria-label="エピソード一覧" as="section" px={Space * 2}>
-        <Flex align="center" as="ul" direction="column" justify="center">
-          {episodes.map((episode) => (
-            <EpisodeListItem key={episode.id} bookId={bookId} episode={episode} />
-          ))}
-        </Flex>
+        <Suspense fallback={null}>
+          <EpisodeListSection bookId={bookId} />
+        </Suspense>
       </Box>
     </Box>
   );
 };
 
-const EpisodeDetailPageWithSuspense: React.FC = () => {
+const ViewerSection: React.FC<{ episodeId: string }> = ({ episodeId }) => {
+  const { data: episode } = useEpisode({ params: { episodeId } });
   return (
-    <Suspense fallback={null}>
-      <EpisodeDetailPage />
-    </Suspense>
+    <section aria-label="漫画ビューアー">
+      <ComicViewer episode={episode!} />
+    </section>
   );
 };
 
-export { EpisodeDetailPageWithSuspense as EpisodeDetailPage };
+const EpisodeListSection: React.FC<{ bookId: string }> = ({ bookId }) => {
+  const { data: episodes } = useEpisodeList({ query: { bookId } });
+  return (
+    <Flex align="center" as="ul" direction="column" justify="center">
+      {episodes.map((episode) => (
+        <EpisodeListItem key={episode.id} bookId={bookId} episode={episode} />
+      ))}
+    </Flex>
+  );
+};

@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useInterval, useUpdate } from 'react-use';
 import styled from 'styled-components';
 
@@ -101,7 +101,7 @@ type Props = {
   episode: GetEpisodeResponse;
 };
 
-const ComicViewerCore: React.FC<Props> = ({ episode }) => {
+export const ComicViewerCore: React.FC<Props> = ({ episode }) => {
   // 画面のリサイズに合わせて再描画する
   const rerender = useUpdate();
   useInterval(rerender, 0);
@@ -219,13 +219,3 @@ const ComicViewerCore: React.FC<Props> = ({ episode }) => {
     </_Container>
   );
 };
-
-const ComicViewerCoreWithSuspense: React.FC<Props> = ({ episode }) => {
-  return (
-    <Suspense fallback={null}>
-      <ComicViewerCore episode={episode} />
-    </Suspense>
-  );
-};
-
-export { ComicViewerCoreWithSuspense as ComicViewerCore };
