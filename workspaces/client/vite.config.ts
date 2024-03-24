@@ -6,7 +6,9 @@ import react from '@vitejs/plugin-react';
 import findPackageDir from 'pkg-dir';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig } from 'vite';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
+// @ts-expect-error - This is a Vite config file
 export default defineConfig(async () => {
   const PACKAGE_DIR = (await findPackageDir(process.cwd()))!;
   const WORKSPACE_DIR = (await findWorkspaceDir(process.cwd()))!;
@@ -25,18 +27,26 @@ export default defineConfig(async () => {
           serviceworker: path.resolve(PACKAGE_DIR, './src/serviceworker/index.ts'),
         },
         output: {
-          entryFileNames: '[name].js',
+          entryFileNames: '[name].mjs',
         },
         plugins: [visualizer()],
       },
-      sourcemap: true,
+      sourcemap: false,
       target: ['chrome123'],
     },
     define: {
       'process.env.API_URL': JSON.stringify(''),
-      'process.env.NODE_ENV': JSON.stringify(process.env['NODE_ENV'] || 'development'),
+      'process.env.NODE_ENV': JSON.stringify('production'),
       'process.env.PATH_LIST': JSON.stringify(IMAGE_PATH_LIST.join(',') || ''),
     },
-    plugins: [react()],
+    plugins: [
+      react(),
+      nodePolyfills({
+        globals: {
+          process: false,
+        },
+        include: ['events', 'fs', 'path', 'buffer'],
+      }),
+    ],
   };
 });

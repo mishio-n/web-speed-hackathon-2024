@@ -59,7 +59,7 @@ export const CreateAuthorModal: React.FC<Props> = ({ isOpen, onClose }) => {
         .mixed((image): image is File => image instanceof File)
         .required('画像を選択してください')
         .test('is-supported-image', '対応していない画像形式です', async (image) => {
-          return image == null || (await isSupportedImage(image));
+          return image == null || isSupportedImage(image);
         }),
       name: yup
         .string()
