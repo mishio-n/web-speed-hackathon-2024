@@ -41,7 +41,8 @@ export const Footer: React.FC = () => {
   const updateDialogContent = useSetAtom(DialogContentAtom);
 
   const handleRequestToTermDialogOpen = async () => {
-    const TERM = await import('../constants/Term').then((module) => module.TERM);
+    // const TERM = await import('../constants/Term').then((module) => module.TERM);
+    const TERM = await (await fetch('/assets/term.txt')).text();
     updateDialogContent(
       <_Content aria-labelledby={termDialogA11yId} role="dialog">
         <Text as="h2" color={Color.MONO_100} id={termDialogA11yId} typography={Typography.NORMAL16}>
@@ -56,7 +57,8 @@ export const Footer: React.FC = () => {
   };
 
   const handleRequestToContactDialogOpen = async () => {
-    const CONTACT = await import('../constants/Contact').then((module) => module.CONTACT);
+    // const CONTACT = await import('../constants/Contact').then((module) => module.CONTACT);
+    const CONTACT = await (await fetch('/assets/contact.txt')).text();
     updateDialogContent(
       <_Content aria-labelledby={contactDialogA11yId} role="dialog">
         <Text as="h2" color={Color.MONO_100} id={contactDialogA11yId} typography={Typography.NORMAL16}>
@@ -71,7 +73,8 @@ export const Footer: React.FC = () => {
   };
 
   const handleRequestToQuestionDialogOpen = async () => {
-    const QUESTION = await import('../constants/Question').then((module) => module.QUESTION);
+    // const QUESTION = await import('../constants/Question').then((module) => module.QUESTION);
+    const QUESTION = await (await fetch('/assets/question.txt')).text();
     updateDialogContent(
       <_Content aria-labelledby={questionDialogA11yId} role="dialog">
         <Text as="h2" color={Color.MONO_100} id={questionDialogA11yId} typography={Typography.NORMAL16}>
@@ -86,7 +89,8 @@ export const Footer: React.FC = () => {
   };
 
   const handleRequestToCompanyDialogOpen = async () => {
-    const COMPANY = await import('../constants/Company').then((module) => module.COMPANY);
+    // const COMPANY = await import('../constants/Company').then((module) => module.COMPANY);
+    const COMPANY = await (await fetch('/assets/company.txt')).text();
     updateDialogContent(
       <_Content aria-labelledby={companyDialogA11yId} role="dialog">
         <Text as="h2" color={Color.MONO_100} id={companyDialogA11yId} typography={Typography.NORMAL16}>
@@ -101,7 +105,8 @@ export const Footer: React.FC = () => {
   };
 
   const handleRequestToOverviewDialogOpen = async () => {
-    const OVERVIEW = await import('../constants/Overview').then((module) => module.OVERVIEW);
+    // const OVERVIEW = await import('../constants/Overview').then((module) => module.OVERVIEW);
+    const OVERVIEW = await (await fetch('/assets/overview.txt')).text();
     updateDialogContent(
       <_Content aria-labelledby={overviewDialogA11yId} role="dialog">
         <Text as="h2" color={Color.MONO_100} id={overviewDialogA11yId} typography={Typography.NORMAL16}>
