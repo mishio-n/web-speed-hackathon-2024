@@ -6,6 +6,7 @@ import { BookListItem } from '../../../features/book/components/BookListItem';
 import { Flex } from '../../../foundation/components/Flex';
 import { Text } from '../../../foundation/components/Text';
 import { Color, Typography } from '../../../foundation/styles/variables';
+import { isContains } from '../../../lib/filter/isContains';
 
 type Props = {
   books: GetBookListResponse;
@@ -18,7 +19,7 @@ export const SearchResult: React.FC<Props> = ({ books, keyword }) => {
       return books;
     }
     return books.filter((book) => {
-      return book.name.includes(keyword) || book.nameRuby.includes(keyword);
+      return isContains({ query: keyword, target: book.name }) || isContains({ query: keyword, target: book.nameRuby });
     });
   }, [books, keyword]);
 
