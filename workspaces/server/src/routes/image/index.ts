@@ -5,6 +5,7 @@ import path from 'node:path';
 
 import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
+import { createMiddleware } from 'hono/factory';
 import { HTTPException } from 'hono/http-exception';
 import { Image } from 'image-js';
 import { z } from 'zod';
@@ -62,6 +63,14 @@ const IMAGE_CONVERTER: Record<SupportedImageExtension, ConverterInterface> = {
 };
 
 const app = new Hono();
+
+app.use(
+  createMiddleware(async (c, next) => {
+    await next();
+    c.res.headers.append('Cache-Control', 'public');
+    c.res.headers.append('Cache-Control', 'max-age=31536000');
+  }),
+);
 
 app.get(
   '/images/:imageFile',

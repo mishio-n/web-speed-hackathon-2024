@@ -2,10 +2,19 @@ import path from 'node:path';
 
 import { serveStatic } from '@hono/node-server/serve-static';
 import { Hono } from 'hono';
+import { createMiddleware } from 'hono/factory';
 
 import { CLIENT_STATIC_PATH } from '../../constants/paths';
 
 const app = new Hono();
+
+app.use(
+  createMiddleware(async (c, next) => {
+    await next();
+    c.res.headers.append('Cache-Control', 'public');
+    c.res.headers.append('Cache-Control', 'max-age=31536000');
+  }),
+);
 
 app.use(
   '*',
