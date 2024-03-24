@@ -23,15 +23,7 @@ export const EpisodeDetailPage: React.FC = () => {
 
   return (
     <Box>
-      <Suspense
-        fallback={
-          <div
-            style={{
-              height: '650px',
-            }}
-          />
-        }
-      >
+      <Suspense fallback={null}>
         <ViewerSection episodeId={episodeId} />
       </Suspense>
 
